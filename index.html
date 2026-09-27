@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F6CBC0">
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="2026년 10월 10일 토요일 오후 4시 30분, 뮤스튜디오에서 사랑이의 백일잔치를 엽니다.">
 <title>이사랑 백일잔치 초대장</title>
@@ -47,7 +48,7 @@ box-sizing:border-box;
 padding-top:env(safe-area-inset-top,0px);
 background:var(--bg);
 }
-html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{background:var(--hero);scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;letter-spacing:-.01em;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 h1,h2,p,figure,address{margin:0}
@@ -60,7 +61,7 @@ button{font:inherit;color:inherit}
 
 .hero-pin{position:relative;height:170vh;height:170svh;background:var(--hero)}
 .hero-pin::before{content:"";position:absolute;inset:0;background:var(--bg);opacity:var(--paper,1)}
-.hero{position:sticky;top:0;height:100vh;height:100svh;padding-top:72px;padding-top:clamp(44px,7.5svh,72px);color:var(--hero-ink);border-radius:0;overflow:clip;display:flex;flex-direction:column;align-items:center;gap:20px;gap:clamp(12px,2.4svh,20px);text-align:center}
+.hero{position:sticky;top:0;height:100vh;height:100svh;padding-top:72px;padding-top:calc(env(safe-area-inset-top,0px) + clamp(44px,7.5svh,72px));color:var(--hero-ink);border-radius:0;overflow:clip;display:flex;flex-direction:column;align-items:center;gap:20px;gap:clamp(12px,2.4svh,20px);text-align:center}
 .hero-copy{position:relative;z-index:1;padding:0 24px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .hero h1{margin:0;line-height:0}
 .hello{display:block;width:246.56px;width:min(246.56px,calc(24svh * 1.4279));max-width:100%;height:auto;overflow:visible;color:var(--hero-ink)}
@@ -689,6 +690,36 @@ else{ctx.resume();if(sink&&sink.paused){var pr=sink.play();if(pr&&pr.catch)pr.ca
 setTimeout(prerender,0);
 paintSound();
 }
+})();
+</script>
+<script>
+(function(){
+var meta=document.querySelector('meta[name="theme-color"]');if(!meta)return;
+var root=document.documentElement,last='';
+function cs(el){return getComputedStyle(el)}
+function vari(name){return cs(root).getPropertyValue(name).trim()}
+document.querySelectorAll('.tile').forEach(function(t){t.dataset.themeColor=vari(t.classList.contains('alt')?'--tile-3':'--tile-1')});
+function alpha(c){var m=/rgba?\(([^)]+)\)/.exec(c);if(!m)return 1;var p=m[1].split(',');return p.length>3?parseFloat(p[3]):1}
+function opaque(c){var m=/rgba?\(([^)]+)\)/.exec(c);if(!m)return c;var p=m[1].split(',');return 'rgb('+p[0]+','+p[1]+','+p[2]+')'}
+function bgOf(el){
+  while(el&&el!==root){
+    if(el.dataset&&el.dataset.themeColor)return el.dataset.themeColor;
+    var c=cs(el).backgroundColor;
+    if(c&&c!=='transparent'&&alpha(c)>0){
+      if(alpha(c)>=.95||el.classList.contains('lb'))return opaque(c);
+    }
+    el=el.parentElement;
+  }
+  return cs(document.body).backgroundColor;
+}
+function update(){
+  var el=document.elementFromPoint(Math.floor(innerWidth/2),1);if(!el)return;
+  var c=bgOf(el);if(c!==last){last=c;meta.setAttribute('content',c)}
+}
+var t=false;function tick(){if(t)return;t=true;requestAnimationFrame(function(){t=false;update()})}
+addEventListener('scroll',tick,{passive:true});addEventListener('resize',tick);addEventListener('load',update);
+document.addEventListener('click',function(){setTimeout(update,400)});
+update();
 })();
 </script>
 </body>
