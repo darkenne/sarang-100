@@ -59,9 +59,9 @@ button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .page{max-width:480px;margin:0 auto}
 
-.hero-pin{position:relative;height:170vh;height:170svh;background:var(--hero)}
+.hero-pin{position:relative;height:170vh;height:calc(100dvh + 70svh);background:var(--hero)}
 .hero-pin::before{content:"";position:absolute;inset:0;background:var(--bg);opacity:var(--paper,1)}
-.hero{position:sticky;top:0;height:100vh;height:100svh;padding-top:72px;padding-top:calc(env(safe-area-inset-top,0px) + clamp(44px,7.5svh,72px));color:var(--hero-ink);border-radius:0;overflow:clip;display:flex;flex-direction:column;align-items:center;gap:20px;gap:clamp(12px,2.4svh,20px);text-align:center}
+.hero{position:sticky;top:0;height:100vh;height:100dvh;padding-top:72px;padding-top:calc(env(safe-area-inset-top,0px) + clamp(44px,7.5svh,72px));color:var(--hero-ink);border-radius:0;overflow:clip;display:flex;flex-direction:column;align-items:center;gap:20px;gap:clamp(12px,2.4svh,20px);text-align:center}
 .hero-copy{position:relative;z-index:1;padding:0 24px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .hero h1{margin:0;line-height:0}
 .hello{display:block;width:246.56px;width:min(246.56px,calc(24svh * 1.4279));max-width:100%;height:auto;overflow:visible;color:var(--hero-ink)}
