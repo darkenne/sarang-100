@@ -201,7 +201,7 @@ html.lb-open,html.lb-open body{overflow:hidden}
 .foot-val{font-size:11.5px;line-height:1.3;font-weight:500}
 .wordmark{display:block;width:100%;height:auto}
 .pola{--pw:min(100vw,480px);position:relative;height:calc(100vh + (var(--pw)*5.39 + 108px) + 30vh);height:calc(100svh + (var(--pw)*5.39 + 108px) + 30svh)}
-.pola-stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;overflow:hidden;contain:paint}.scroll-hint{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 28px);z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;pointer-events:none;color:var(--muted);font-size:11px;line-height:1.2;font-weight:500;letter-spacing:.24em;text-indent:.24em;text-transform:uppercase}.scroll-hint svg{width:20px;height:20px;animation:hintBob 1.6s ease-in-out infinite}@keyframes hintBob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(5px);opacity:1}}@media (prefers-reduced-motion:reduce){.scroll-hint svg{animation:none}}
+.pola-stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;overflow:hidden;contain:paint}.scroll-hint{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 28px);z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;pointer-events:none;color:var(--muted);font-size:11px;line-height:1.2;font-weight:500;letter-spacing:.24em;text-indent:.24em;text-transform:uppercase}.scroll-hint{transition:opacity .35s ease}.scroll-hint.is-out{opacity:0}.scroll-hint svg{width:20px;height:20px;animation:hintBob 1.6s ease-in-out infinite}@keyframes hintBob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(5px);opacity:1}}@media (prefers-reduced-motion:reduce){.scroll-hint svg{animation:none}}
 .pola-track{position:relative;display:flex;align-items:center;gap:12px;padding:0 calc(var(--pw)*.22) 0 calc(var(--pw)*.17);will-change:transform;transform:translate3d(0,0,0)}
 @keyframes polaSlide{0%,4.5%{transform:translate3d(0,0,0)}95.5%,100%{transform:translate3d(calc(-1 * (var(--pw)*5.39 + 108px)),0,0)}}
 @supports (animation-timeline:view()){.pola{view-timeline:--pola block}.pola-track{animation:polaSlide linear both;animation-timeline:--pola;animation-range:contain 0% contain 100%}}
@@ -721,6 +721,15 @@ var t=false;function tick(){if(t)return;t=true;requestAnimationFrame(function(){
 addEventListener('scroll',tick,{passive:true});addEventListener('resize',tick);addEventListener('load',update);
 document.addEventListener('click',function(){setTimeout(update,400)});
 update();
+})();
+</script>
+<script>
+(function(){
+var pola=document.querySelector('.pola'),hint=document.querySelector('.scroll-hint');if(!pola||!hint)return;
+var t=false;
+function upd(){var r=pola.getBoundingClientRect();hint.classList.toggle('is-out',r.bottom<innerHeight-1)}
+function tick(){if(t)return;t=true;requestAnimationFrame(function(){t=false;upd()})}
+addEventListener('scroll',tick,{passive:true});addEventListener('resize',tick);addEventListener('load',upd);upd();
 })();
 </script>
 </body>
